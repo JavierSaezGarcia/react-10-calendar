@@ -1,5 +1,8 @@
 # Calendar App
 
+1. Renombrar el archivo .env.template por .env
+2. Hacer los cambios necesarios en las variables de entorno
+
 ## Installations:
 
 - Yarn
@@ -41,6 +44,10 @@
 
 ```
     yarn add redux-thunk
+```
+- Axios: maneja muy bien los interceptores de la peticiones a la BD
+```
+    yarn add axios
 ```
 - Date-fns for react big calendar
 
