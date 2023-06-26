@@ -29,11 +29,9 @@ export const calendarSlice = createSlice({
       state.activeEvent = payload;    
       // console.log(payload);
     },
-    onAddNewEvent: ( state, { payload } ) => {
+    onAddNewEvent: ( state, { payload }) => {
       state.events.push( payload );
       state.activeEvent = null;
-    
-      // console.log(payload);
     },
     onUpdateEvent: ( state, { payload } ) => {
       
@@ -62,10 +60,23 @@ export const calendarSlice = createSlice({
           state.events.push(event);
         }
       });
+    },
+    onLogoutCalendar: ( state ) => {  
+      state.isLoadingEvents = true;
+      state.events = [];
+      state.activeEvent = null;
     }
+
 
   }
   
 });
 
-export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent, onLoadEvents } = calendarSlice.actions
+export const { 
+    onSetActiveEvent, 
+    onAddNewEvent, 
+    onUpdateEvent, 
+    onDeleteEvent, 
+    onLoadEvents,
+    onLogoutCalendar
+  } = calendarSlice.actions

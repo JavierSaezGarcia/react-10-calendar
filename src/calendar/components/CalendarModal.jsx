@@ -42,7 +42,7 @@ export const CalendarModal = () => {
         title: '',
         notes: '',
         start: new Date(),
-        end: addHours(new Date(), 1),
+        end: addHours(new Date(), 2),
     });
 
     const titleClass = useMemo(() => {
@@ -123,7 +123,7 @@ export const CalendarModal = () => {
                         showTimeSelect
                         locale="es"
                         timeCaption="Hora"
-                        timeFormat="p"
+                        
 
                     />
                 </div>

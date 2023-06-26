@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { calendarApi } from "../api";
-import { onChecking, onLogin, onLogout, clearErrorMessage } from "../store";
+import { onChecking, onLogin, onLogout, clearErrorMessage, onLogoutCalendar, } from "../store";
 import Swal from 'sweetalert2';
 
 export const useAuthStore = () => {
@@ -16,8 +16,8 @@ export const useAuthStore = () => {
         try {
 
             const { data } = await calendarApi.post('/auth', { email, password });
-            console.log(data.token);
-            console.log(data.name);
+            // console.log(data.token);
+            // console.log(data.name);
             localStorage.setItem('token', data.token);
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({ name: data.name, uid: data.uid }));
@@ -66,6 +66,7 @@ export const useAuthStore = () => {
 
     const startLogout = () => { 
         localStorage.clear();
+        dispatch(onLogoutCalendar());
         dispatch(onLogout());
     }
 

@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react';
+import { useAuthStore, useCalendarStore, useUIStore } from '../../hooks';
 import { Calendar } from 'react-big-calendar';
 import { localizer, getMessagesES } from '../../helpers/';
 import { CalendarEvent, CalendarModal, FabAddNew, FabDelete, NavBar } from "../";
-import { useEffect, useState } from 'react';
-import { useCalendarStore, useUIStore } from '../../hooks';
+
+
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
@@ -13,6 +15,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 export const CalendarPage = () => {
 
+  const { user } = useAuthStore();
+
   const { openDateModal } = useUIStore();
 
   const { events, setActiveEvent, startLoadingEvents } = useCalendarStore();
@@ -21,8 +25,9 @@ export const CalendarPage = () => {
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     // console.log(event, start, end, isSelected);  
+    const isMyEvent = (user.uid === event.user._id) || (user.uid === event.user.uid);
     const style = {
-      backgroundColor: "#347CF7",
+      backgroundColor: isMyEvent ? "#347CF7" : "#465660",
       borderRadius: "0px",
       opacity: 0.8,
       color: 'white'
@@ -43,9 +48,10 @@ export const CalendarPage = () => {
     setActiveEvent(event);
   }
 
-  const onViewChange = (event) => {
-    console.log({ viewChanged: event });
+  const onViewChanged = (event) => {
+    // console.log({ viewChanged: event });
     localStorage.setItem('lastView', event);
+    setLastView( event )
   }
 
   useEffect(() => {
@@ -73,7 +79,7 @@ export const CalendarPage = () => {
         }}
         onDoubleClickEvent={onDoubleClick} // representa un doble click en un evento        
         onSelectEvent={onSelect} // representa un click en un event
-        onView={onViewChange} // representa cambio de vista
+        onView={onViewChanged} // representa cambio de vista
       />
       <CalendarModal />
       <FabAddNew />

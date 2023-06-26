@@ -6,8 +6,7 @@ export const CalendarEvent = ({ event }) => {
     return (
         <>
          <strong>{ title } - </strong>
-         <strong>{ notes } - </strong>
-         
+         <strong>{ notes } - </strong>         
          <span>{ user.name }</span>
        
         </>
