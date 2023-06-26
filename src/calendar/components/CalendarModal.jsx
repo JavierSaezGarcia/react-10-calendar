@@ -1,10 +1,15 @@
-import DatePicker, { registerLocale } from "react-datepicker";
-import { addHours, differenceInSeconds } from 'date-fns';
 import { useMemo, useState, useEffect } from 'react';
+import { addHours, differenceInSeconds } from 'date-fns';
+
 import Modal from 'react-modal';
-import es from 'date-fns/locale/es';
-import "react-datepicker/dist/react-datepicker.css";
+
 import Swal from "sweetalert2";
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import es from 'date-fns/locale/es';
 import { useCalendarStore, useUIStore } from "../../hooks";
 
 
@@ -72,7 +77,7 @@ export const CalendarModal = () => {
     }
 
     const onCloseModal = () => {
-        console.log('cierro modal');
+        // console.log('cierro modal');
         closeDateModal();
 
     }
@@ -85,15 +90,12 @@ export const CalendarModal = () => {
             Swal.fire('Error', 'Fechas incorrectas, Revisa las fechas', 'error');
             return;
         }
-        if (formValues.title.length <= 0) {
-            Swal.fire('Error', 'El título no puede estar vacío', 'error');
-            return;
-        }
+        if (formValues.title.length <= 0) return;
 
         // TODO:
         // Remover errores ehn pantalla
         // Cerrar modal
-
+        
         await startSavingEvent( formValues ); 
         closeDateModal();
         setformSubmitted(false);
@@ -103,11 +105,11 @@ export const CalendarModal = () => {
     return (
         <Modal
             isOpen={isDateModalOpen}
-            onRequestClose={onCloseModal}
-            style={customStyles}
+            onRequestClose={ onCloseModal }
+            style={ customStyles }
             className="modal"
             overlayClassName="modal-fondo"
-            closeTimeoutMS={200}>
+            closeTimeoutMS={ 200 }>
             <h1> Nuevo evento </h1>
             <hr />
             <form onSubmit={onSubmit} >

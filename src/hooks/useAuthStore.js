@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { calendarApi } from "../api";
 import { onChecking, onLogin, onLogout, clearErrorMessage } from "../store";
-import  Swal  from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 export const useAuthStore = () => {
 
@@ -21,13 +21,8 @@ export const useAuthStore = () => {
             localStorage.setItem('token', data.token);
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({ name: data.name, uid: data.uid }));
-            Swal.fire('',`Bienvenido ${data.name}`, 'success');
-
-
         }
-
-
-         catch (error) {
+        catch (error) {
             dispatch(onLogout('Credenciales incorrectas'));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
@@ -45,13 +40,33 @@ export const useAuthStore = () => {
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({ name: data.name, uid: data.uid }));
             Swal.fire('Registro correcto', `Bienvenido ${data.name}`, 'success');
-        }catch (error) {
+        } catch (error) {
             dispatch(onLogout(error.response.data?.msg || 'Informacion invalida, intente de nuevo'));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10);
         }
 
+    }
+
+    const checkAuthToken = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return dispatch(onLogout());
+
+        try {
+            const { data } = await calendarApi.get('/auth/renew');
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            dispatch(onLogin({ name: data.name, uid: data.uid }));
+        } catch (error) {
+            localStorage.clear();
+            dispatch(onLogout());
+        }
+    }
+
+    const startLogout = () => { 
+        localStorage.clear();
+        dispatch(onLogout());
     }
 
     return {
@@ -62,6 +77,8 @@ export const useAuthStore = () => {
         //* METODOS
         startLogin,
         startRegister,
+        checkAuthToken,
+        startLogout
     }
 }
 
