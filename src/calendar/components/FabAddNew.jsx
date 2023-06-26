@@ -9,7 +9,7 @@ export const FabAddNew = () => {
 
     const handleClickNew = () => {
         setActiveEvent({
-            _id: new Date().getTime(),
+           
             title: "",  // obligatorio
             notes: "",  // opcional
             start: new Date(),              // obligatorio
