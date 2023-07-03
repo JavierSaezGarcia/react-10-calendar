@@ -12,7 +12,6 @@ export const useAuthStore = () => {
     const startLogin = async ({ email, password }) => {
 
         dispatch(onChecking());
-
         try {
 
             const { data } = await calendarApi.post('/auth', { email, password });
@@ -64,7 +63,7 @@ export const useAuthStore = () => {
         }
     }
 
-    const startLogout = () => { 
+    const startLogout = () => {
         localStorage.clear();
         dispatch(onLogoutCalendar());
         dispatch(onLogout());
